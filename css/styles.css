@@ -1,0 +1,1120 @@
+/* Reset some default styles */
+
+
+/* Body Styling */
+html, body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+    height: 100%; /* Ensure the body takes the full height */
+    display: flex;
+    flex-direction: column;
+    
+}
+
+/* Container */
+.container {
+
+
+    max-width: 90%; /* Adjust for mobile */
+    margin: 50px auto;
+    overflow: hidden;
+    padding: 20px 0;
+    
+    
+    
+}
+
+/* Header Styling */
+header {
+    background-color: #004080;
+    color: #fff;
+    position: fixed; /* Fixes the header to the top */
+    width: 100%; /* Full width */
+    z-index: 1000; /* Ensure header stays on top */
+    margin-bottom: 100px;
+    
+
+        
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 30px;
+    flex-wrap: wrap; /* Allow items to wrap */
+
+
+}
+.logo img {
+    max-width: 70px; /* Set a maximum width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+
+
+
+
+/* Navigation Menu */
+
+nav {
+    flex-grow: 1;
+    margin: 0 20px;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+}
+
+.menu li {
+    position: relative;
+    margin: 0 15px;
+    cursor: pointer;
+}
+
+.menu li a {
+    color: #fff;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dropdown Styles */
+.menu li .dropdown {
+    display: none;
+    position: absolute;
+    background-color: #004080;
+    min-width: 200px;
+    z-index: 1;
+    border-radius: 4px;
+    top: 100%;
+    left: 0;
+}
+
+.menu li:hover .dropdown {
+    display: block;
+}
+
+.dropdown li {
+    padding: 10px;
+    width: 100%;
+}
+
+.dropdown li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.dropdown li a:hover {
+    background-color: #003060;
+    color: #ffcc00;
+}
+
+/* Sign In Button Styles */
+.sign-in {
+    z-index: 1000; /* Ensure proper layering */
+
+    
+}
+
+
+.sign-in a {
+    color: #fff;
+    text-decoration: none;
+    background-color: #003060;
+    padding: 10px 20px;
+    border-radius: 4px;
+}
+
+.sign-in a:hover {
+    background-color: #0d63b9;
+}
+
+/* Mobile Menu */
+.menu-toggle {
+    display: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: #fff;
+}
+
+.menu ul {
+    flex-direction: row;
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    nav {
+        display: none;
+        width: 100%;
+    }
+
+    .menu ul {
+        flex-direction: column;
+        text-align: left;
+        width: 100%;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .menu.active {
+        display: block;
+    }
+
+    .container {
+        max-width: 100%; /* Ensure it fits small screens */
+    }
+
+    
+
+    .menu-toggle {
+        margin-right: 0; /* Reset margin */
+    }
+
+    .sign-in {
+        margin-right: 20px; /* Add space above sign-in button */
+        text-align: end; /* Center align it */
+    }
+
+
+
+}
+
+
+
+
+
+
+/* ------------------- Account Section Styles ------------------- */
+
+.account-section {
+    margin-top: 100px;
+}
+
+.account-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    color: #004080;
+    text-align: center;
+}
+
+.login-register-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap; /* Allows stacking on smaller screens */
+}
+
+.login-form, .register-prompt {
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    flex: 1;
+    min-width: 280px;
+}
+
+.login-form h3, .register-prompt h3 {
+    margin-bottom: 20px;
+    color: #004080;
+}
+
+.login-form label, .register-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.login-form .input-group, .register-prompt .input-group {
+    position: relative;
+}
+
+.login-form .input-group i, .register-prompt .input-group i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #004080;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"],
+.register-prompt input[type="text"],
+.register-prompt input[type="password"],
+.register-prompt input[type="email"] {
+    width: 100%;
+    padding: 10px 12px;
+    padding-left: 35px; /* Space for the icon */
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+
+.login-form input[type="text"]:focus,
+.login-form input[type="password"]:focus,
+.register-prompt input[type="text"]:focus,
+.register-prompt input[type="password"]:focus,
+.register-prompt input[type="email"]:focus {
+    border-color: #004080;
+    outline: none;
+}
+
+.login-form button,
+.register-prompt .register-button {
+    width: 100%;
+    padding: 12px 0;
+    background-color: #004080;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-form button:hover,
+.register-prompt .register-button:hover {
+    background-color: #003060;
+}
+
+.forgot-password {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.forgot-password a {
+    color: #004080;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+.register-prompt p {
+    margin-bottom: 20px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.register-button {
+    display: inline-block;
+    text-align: center;
+    background-color: #28a745; /* Green color for register */
+}
+
+.register-button:hover {
+    background-color: #218838;
+}
+
+/* Responsive Adjustments */
+
+@media (max-width: 768px) {
+    .login-register-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .forgot-password {
+        text-align: center;
+    }
+
+    .login-form button,
+    .register-prompt .register-button {
+        padding: 10px 0;
+    }
+}
+
+/* ------------------- Error and Success Messages ------------------- */
+
+.error-message {
+    color: #dc3545;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.success-message {
+    color: #28a745;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* ------------------- Additional Styles ------------------- */
+
+/* Ensure the container doesn't interfere with the layout */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px 0;
+}
+
+/* Optional: Style the main content */
+main {
+    padding: 20px 0;
+    flex: 1;
+}
+
+/* Input Group Icons */
+.input-group i {
+    pointer-events: none; /* Prevents the icon from blocking input */
+}
+
+
+
+
+/* Welcome Section */
+.welcome {
+    background: #e0e7ff;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    padding-top: 20px;
+    margin-top: 100px;
+}
+
+.welcome h2 {
+    margin-bottom: 10px;
+    color: #003366;
+}
+
+/* Latest News and Upcoming Matches and Match results */
+.news-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    
+}
+
+
+.matches {
+    display: flex;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.matches-column {
+    flex: 1;
+}
+
+.match-details {
+   
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.match-details:hover {
+    background-color: #f0f0f0;
+   
+    
+}
+
+.news-detail {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    margin-top: 100px;
+    
+}
+
+.news-title {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+
+.full-image {
+    width: 35%;
+    height: auto;
+    margin-left: 30%;
+  
+}
+
+
+.news-date {
+    text-align: center;
+    color: #777;
+    margin-top: 20px;
+}
+
+.news-image {
+    width: 100px; /* Adjust width as needed */
+    height: 100px; /* Maintain aspect ratio */
+    margin-right: 15px;
+    margin-top: 25px;
+
+}
+.news-article {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.3s;
+    width: 23%;
+    box-sizing: border-box;
+    flex: 0 0 calc(25% - 20px);
+    
+}
+
+.news-article:hover {
+    background-color: #f0f0f0;
+}
+
+
+
+.news-date {
+    margin-top: auto;
+    text-align: center;
+    color: #777;
+    font-size: 0.85em;
+    
+}
+
+
+.news-row {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+
+
+.matches-left, .matches-right {
+    display: inline-block;
+    vertical-align: top;
+    width: 48%; /* Two equal sections for Upcoming Matches and Match Results */
+    margin-top: 20px;
+    border: 0px solid #ddd;
+    
+    
+}
+
+.matches-columns {
+    display: flex;
+    flex-wrap: wrap;
+    border: 0px solid #ddd;
+    
+}
+
+.match-row {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    border: 0px solid #ddd;
+    
+}
+
+.match-details {
+    width: 48%; /* Each column occupies half of its container */
+    padding: 10px;
+}
+
+.match-details p {
+    margin: 5px 0;
+
+}
+
+/* Full-width for single section */
+.matches-section .single-section {
+    width: 100%;
+}
+
+/* Adjust width if both sections are displayed */
+.matches-section .matches-left,
+.matches-section .matches-right {
+    width: 49%;
+}
+
+/* Style for the horizontal line */
+.section-divider {
+    border: none;
+    border-top: 2px solid #7b92f8; /* Adjust color as desired */
+    margin: 10px 0;
+}
+
+
+
+
+/* Styling for match results */
+.result-match .teams-score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.result-match .team-name {
+    color: #333;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 0 5px;
+}
+
+.result-match .score-box {
+    background-color: #0c54c0; /* Distinct color to highlight the score */
+    color: white;
+    padding: 3px 8px;
+    margin: 0 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.result-match .score-divider {
+    font-size: 1em;
+    font-weight: bold;
+    color: #666;
+    margin: 0 5px;
+}
+
+.result-match .match-location,
+.result-match .match-date-time {
+    color: #666;
+    font-size: 0.9em;
+    text-align: center;
+    margin: 2px 0;
+}
+
+
+
+
+
+/* Styling for the upcoming matches */
+.upcoming-match .match-info {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
+.upcoming-match .teams-upcoming {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.upcoming-match .team-name {
+    flex: 1;
+    text-align: center;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.upcoming-match .vs-text {
+    font-size: 1em;
+    margin: 0 0.3em;
+    color: #3978e3;
+    font-style: italic;
+}
+
+.upcoming-match .match-location,
+.upcoming-match .match-date-time {
+    color: #666666;
+    font-size: 0.9em;
+    margin: 2px 0;
+}
+
+
+
+
+
+
+
+
+/* Footer Styling */
+footer {
+    background-color: #004080;
+    color: #fff;
+    text-align: center;
+    padding: 1px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+footer a {
+    color: #ffcc00;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+footer a:hover {
+    text-decoration: none;
+}
+
+/* Admin Dashboard Styles */
+.admin-overview .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.admin-overview .stat {
+    background: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    flex: 1 1 200px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.admin-overview .stat h3 {
+    margin-bottom: 10px;
+    color: #004080;
+}
+
+.recent-activities .recent-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.recent-activities .recent-list li {
+    background: #fff;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    box-shadow: 0 0 3px rgba(0,0,0,0.1);
+}
+
+/* Tables for Management Pages */
+.manage-tournaments table, 
+.manage-teams table, 
+.manage-matches table, 
+.manage-news table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.manage-tournaments th, 
+.manage-teams th, 
+.manage-matches th, 
+.manage-news th,
+.manage-tournaments td, 
+.manage-teams td, 
+.manage-matches td, 
+.manage-news td {
+    padding: 10px;
+    text-align: left;
+}
+
+.manage-tournaments th, 
+.manage-teams th, 
+.manage-matches th, 
+.manage-news th {
+    background-color: #004080;
+    color: #fff;
+}
+
+.manage-tournaments tr:nth-child(even), 
+.manage-teams tr:nth-child(even), 
+.manage-matches tr:nth-child(even), 
+.manage-news tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.manage-tournaments a, 
+.manage-teams a, 
+.manage-matches a, 
+.manage-news a {
+    color: #004080;
+    text-decoration: none;
+}
+
+.manage-tournaments a:hover, 
+.manage-teams a:hover, 
+.manage-matches a:hover, 
+.manage-news a:hover {
+    text-decoration: underline;
+}
+
+/* Forms */
+form label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="date"],
+form input[type="number"],
+form select,
+form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #004080;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #003060;
+}
+
+/* Statistics Boxes */
+.admin-overview .stats .stat p {
+    font-size: 1.5em;
+    margin-top: 10px;
+}
+
+
+
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Additional Styles */
+.tournament-section, .team-section, .match-section {
+    margin-top: 30px;
+}
+
+.tournament-section h3, .team-section h3, .match-section h3 {
+    color: #35424a;
+}
+
+
+.button {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #004080;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #003060;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; 
+    z-index: 1001; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.5); /* Black with opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    border-radius: 8px;
+}
+
+.manage-tournaments tr:hover, 
+.manage-teams tr:hover, 
+.manage-matches tr:hover, 
+.manage-news tr:hover {
+    background-color: #e0e7ff; /* Light blue on hover */
+}
+
+
+.dashboard-buttons {
+    display: flex;
+    justify-content: center; /* Center buttons horizontally */
+    gap: 15px; /* Space between buttons */
+    margin: 20px 0; /* Space above and below the buttons */
+}
+
+.dashboard-buttons button {
+    background-color: #007bff; /* Primary button color */
+    color: #fff; /* Text color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding inside the button */
+    font-size: 1rem; /* Base font size */
+    font-weight: bold; /* Bold text */
+    cursor: pointer; /* Pointer on hover */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.dashboard-buttons button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.dashboard-buttons button:active {
+    background-color: #004080; /* Even darker shade when clicked */
+    transform: translateY(0); /* Reset the lift effect */
+}
+
+
+
+
+a {
+    text-decoration: none;
+}
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+}
+
+input[type="text"], 
+input[type="password"],
+input[type="email"],
+select, 
+textarea {
+    width: 50%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+/* Radio Buttons Styles */
+.rating {
+    display: flex;
+    gap: 10px;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+/* features.css */
+
+
+
+table.match-table {
+    width: 60%; /* Adjusted to 100% width */
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+   
+    
+}
+
+table.match-table th, table.match-table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+table.match-table td {
+    border-bottom: 1px solid #ddd;
+}
+
+table.match-table td img {
+    width: 50px; /* Adjust logo size */
+    height: 50px;
+    object-fit: contain;
+}
+
+table.match-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.team-name {
+    padding-left: 10px;
+    font-weight: bold;
+}
+
+.match-time {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.match-location {
+    font-size: 14px; /* Style for location */
+    font-weight: normal;
+    padding-left: 10px; /* Padding for spacing */
+}
+
+
+
+/* Responsive design for mobile view */
+@media (max-width: 768px) {
+    .team-name, .match-time, .match-location {
+        font-size: 14px;
+    }
+}
+
+
+
+
+
+/* results.css */
+
+/* Blue background for the score */
+.match-score {
+    background-color: #074a92;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    width: 50px; 
+    text-align: center;
+}
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+.results-table th, .results-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.results-table th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+.results-table td {
+    color: #333;
+}
+
+.results-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.results-table tr:hover {
+    background-color: #ddd;
+}
+
+.results-table td:first-child, .results-table td:last-child {
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .results-table th, .results-table td {
+        font-size: 14px;
+    }
+}
+
+
+/* Basic table styling */
+.standing-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1em;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Only add a bottom border to the header and each row */
+.standing-table th,
+.standing-table td {
+    padding: 12px 15px;
+    border-bottom: 2px solid #dddddd; /* Horizontal border */
+    text-align: center;
+}
+
+/* Styling for the header */
+.standing-table th {
+    background-color: #007BFF; 
+    color: white;
+}
+
+/* Zebra stripes for even rows */
+.standing-table tr:nth-child(even) {
+    background-color: #f2f2f2; /* Zebra stripes */
+}
+
+/* Hover effect for rows */
+.standing-table tr:hover {
+    background-color: #e0e0e0; /* Change to a light grey on hover */
+}
+
+/* Logo styling */
+.team-logo {
+    width: 30px; /* Logo size */
+    height: auto;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .standing-table th, .standing-table td {
+        font-size: 14px;
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+}
