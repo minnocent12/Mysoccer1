@@ -18,8 +18,10 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-// Fetch tournaments from the database
-$sql = "SELECT * FROM tournaments";
+$admin_id = $_SESSION['admin_id'];
+
+// Fetch tournaments from the database for the logged-in admin
+$sql = "SELECT * FROM tournaments WHERE admin_id = $admin_id"; // Only fetch tournaments belonging to the logged-in admin
 $result = $conn->query($sql);
 $tournaments = [];
 while ($row = $result->fetch_assoc()) {
@@ -213,11 +215,7 @@ while ($row = $result->fetch_assoc()) {
 
                                    
 
-                                    <!-- Standings Section -->
-
-
-
-
+                                
 
 
                                     <!-- Standings Section -->
@@ -255,27 +253,12 @@ while ($row = $result->fetch_assoc()) {
                                                 // Calculate stats from matches
                                                 foreach ($matches as $match) {
                                                     if ($match['team1_id'] == $team_id || $match['team2_id'] == $team_id) {
-                                                        $played++;
-
-                                                        // Check if the match is upcoming (score not updated)
-                                                        if (is_null($match['team1_score']) && is_null($match['team2_score'])) {
-                                                            $match_date = new DateTime($match['match_date']);
-                                                            $now = new DateTime();
-
-                                                            // Check if this is the closest upcoming match
-                                                            if ($match_date >= $now) {
-                                                                if ($match['team1_id'] == $team_id) {
-                                                                    $next_opponent = $match['team2_name'];
-                                                                } elseif ($match['team2_id'] == $team_id) {
-                                                                    $next_opponent = $match['team1_name'];
-                                                                }
-                                                            }
-                                                        }
-
-                                                        // Update stats if match has a score
+                                                        // Only count match as played if both team1_score and team2_score are not null (match has been played)
                                                         if (!is_null($match['team1_score']) && !is_null($match['team2_score'])) {
+                                                            $played++;  // Count this match as played
+
+                                                            // Update stats based on the match results
                                                             if ($match['team1_id'] == $team_id) {
-                                                                // Team1 is the current team
                                                                 $gf += $match['team1_score'];
                                                                 $ga += $match['team2_score'];
 
@@ -287,7 +270,6 @@ while ($row = $result->fetch_assoc()) {
                                                                     $lost++;
                                                                 }
                                                             } elseif ($match['team2_id'] == $team_id) {
-                                                                // Team2 is the current team
                                                                 $gf += $match['team2_score'];
                                                                 $ga += $match['team1_score'];
 
@@ -297,6 +279,21 @@ while ($row = $result->fetch_assoc()) {
                                                                     $drawn++;
                                                                 } else {
                                                                     $lost++;
+                                                                }
+                                                            }
+                                                        } else {
+                                                            // Match is scheduled but not yet played, check for next opponent
+                                                            if (is_null($match['team1_score']) && is_null($match['team2_score'])) {
+                                                                $match_date = new DateTime($match['match_date']);
+                                                                $now = new DateTime();
+
+                                                                // Check if this is the closest upcoming match
+                                                                if ($match_date >= $now) {
+                                                                    if ($match['team1_id'] == $team_id) {
+                                                                        $next_opponent = $match['team2_name'];
+                                                                    } elseif ($match['team2_id'] == $team_id) {
+                                                                        $next_opponent = $match['team1_name'];
+                                                                    }
                                                                 }
                                                             }
                                                         }
@@ -321,6 +318,7 @@ while ($row = $result->fetch_assoc()) {
                                                     'next_opponent' => $next_opponent
                                                 ];
                                             }
+
 
                                             // Sort teams by points, GD, and team name
                                             usort($standings, function ($a, $b) {

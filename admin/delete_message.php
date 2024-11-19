@@ -16,17 +16,34 @@ if (!isset($_SESSION['username'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['message_id'])) {
     $message_id = $_POST['message_id'];
 
-    // Delete the message
-    $sql = "DELETE FROM messages WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $message_id);
+    // Begin a transaction to ensure both deletes are done atomically
+    $conn->begin_transaction();
 
-    if ($stmt->execute()) {
-        $_SESSION['success_message'] = "Message deleted successfully.";
-    } else {
-        $_SESSION['error_message'] = "Error deleting message: " . $conn->error;
+    try {
+        // Delete the message
+        $sql = "DELETE FROM messages WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $message_id);
+        $stmt->execute();
+
+        // Now, delete all messages that were replies to the deleted message
+        $sql = "DELETE FROM messages WHERE replied_to = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $message_id);
+        $stmt->execute();
+
+        // If both deletes succeed, commit the transaction
+        $conn->commit();
+
+        $_SESSION['success_message'] = "Message and related replies deleted successfully.";
+    } catch (Exception $e) {
+        // If there is an error, roll back the transaction
+        $conn->rollback();
+
+        $_SESSION['error_message'] = "Error deleting message and replies: " . $e->getMessage();
     }
 
+    // Close the statement
     $stmt->close();
 }
 

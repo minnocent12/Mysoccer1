@@ -13,26 +13,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
 
-    // Prepare and bind
-    $stmt = $conn->prepare("SELECT password FROM admins WHERE username = ?");
+    // Prepare and bind to check if username exists
+    $stmt = $conn->prepare("SELECT id, password FROM admins WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $stmt->store_result();
 
     // Check if user exists
-    if($stmt->num_rows > 0){
-        $stmt->bind_result($hashed_password);
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($admin_id, $hashed_password);
         $stmt->fetch();
 
-        // Verify password
-        if(password_verify($password, $hashed_password)){
+        // Verify the password
+        if (password_verify($password, $hashed_password)) {
             session_regenerate_id(true); // Prevent session fixation
-            $_SESSION['username'] = $username;
+            $_SESSION['username'] = $username;  // Store username
+            $_SESSION['admin_id'] = $admin_id;  // Store admin ID for future use
             setcookie("username", $username, time() + (86400 * 30), "/"); // 30 days
             header("Location: admin/admin_dashboard.php"); // Redirect to admin dashboard after successful login
             exit();
-        }
-         else {
+        } else {
             $message = "Invalid password.";
         }
     } else {
@@ -47,7 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Login - MySoccer</title>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>

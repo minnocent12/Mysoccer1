@@ -78,6 +78,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['change_password'])) 
             }
         }
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_profile_picture'])) {
+            $defaultPicture = 'default_profile.png'; // Default profile picture filename
+            $currentPicturePath = "../uploads/profile_pics/" . $user['profile_picture'];
+        
+            // Delete current profile picture if it's not the default
+            if ($user['profile_picture'] && $user['profile_picture'] !== $defaultPicture && file_exists($currentPicturePath)) {
+                unlink($currentPicturePath);
+            }
+        
+            // Update database to set profile picture to default
+            $stmt = $conn->prepare("UPDATE admins SET profile_picture = ? WHERE username = ?");
+            $stmt->bind_param("ss", $defaultPicture, $_SESSION['username']);
+            if ($stmt->execute()) {
+                $_SESSION['success'] = "Profile picture removed successfully!";
+                header("Location: profile.php");
+                exit();
+            } else {
+                $error = "Failed to delete profile picture. Please try again.";
+            }
+        }
+        
+
+
         if (!isset($error)) {
             $stmt = $conn->prepare("
                 UPDATE admins
@@ -146,6 +169,204 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['change_password'])) 
         .modal button {
             margin: 5px;
         }
+
+
+
+
+        .profile-section {
+            margin-top: 10px;
+        }
+
+        .profile-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #004080;
+            text-align: center;
+        }
+
+        .profile-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 30px;
+            flex-wrap: wrap; /* Allows stacking on smaller screens */
+            
+        }
+
+        .profile-form {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 200px;
+            
+            
+            
+        }
+
+        .profile-form h3 {
+            margin-bottom: 20px;
+            color: #004080;
+        }
+
+        .profile-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .profile-form .input-group {
+            position: relative;
+        }
+
+        .profile-form .input-group i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #004080;
+        }
+
+        .profile-form input[type="text"],
+        .profile-form input[type="password"],
+        .profile-form input[type="email"],
+        .profile-form input[type="file"] {
+            width: 60%;
+            padding: 10px 10px;
+            padding-left: 35px; /* Space for the icon */
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.3s ease;
+        }
+
+
+
+        .profile-form input[type="text"]:focus,
+        .profile-form input[type="password"]:focus,
+        .profile-form input[type="email"]:focus,
+        .profile-form  input[type="file"]:focus {
+            border-color: #004080;
+            outline: none;
+
+        }
+
+        .profile-form button
+        {
+            width: 30%;
+            padding: 12px 0;
+            background-color: #004080;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            
+        }
+
+        .profile-form button:hover {
+            background-color: #003060;
+        }
+
+
+
+
+        /* Responsive Adjustments */
+
+        @media (max-width: 768px) {
+            .profile-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            
+
+            .profile-form button {
+                padding: 10px 0;
+            }
+        }
+
+        .profile-picture-preview {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .profile-picture-preview .profile-img {
+            max-width: 120px;
+            max-height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ddd;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .btn-save {
+            background-color: #004080;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-save:hover {
+            background-color: #003060;
+        }
+
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .profile-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .profile-form {
+                margin: 0 auto;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        .btn-delete {
+            background-color: #f44336; /* Red background */
+            color: white;
+            padding: 5px 10px; /* Smaller padding for compact size */
+            border: none;
+            border-radius: 4px;
+            font-size: 0.85em; /* Slightly smaller font */
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+            width: auto; /* Ensures the width is not too large */
+        }
+
+        .btn-delete:hover {
+            background-color: #d32f2f;
+        }
+
+
     </style>
 </head>
 <body>
@@ -191,21 +412,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['change_password'])) 
                                 <input type="email" id="email" name="email" 
                                     value="<?php echo htmlspecialchars($user['email']); ?>" required>
                             </div>
-                            <div class="form-group">
+                            <div class="input-group">
                                 <label for="profile_picture">Profile Picture</label>
                                 <div class="profile-picture-preview">
                                     <img src="<?php echo htmlspecialchars($profilePicturePath); ?>" 
-                                         alt="Profile Picture" class="profile-img">
+                                        alt="Profile Picture" class="profile-img">
                                 </div>
                                 <input type="file" id="profile_picture" name="profile_picture">
+
+                                
+                                <button type="submit" name="delete_profile_picture" class="btn-delete">Delete Picture</button>
                             </div>
 
-                            <button type="button" id="changePasswordBtn" class="btn-save">Change Password</button>
 
                             <div class="form-actions">
                                 <button type="submit" class="btn-save">Save Changes</button>
-                                <button type="reset" class="btn-reset">Reset</button>
+                                <button type="button" id="changePasswordBtn" class="btn-save">Change Password</button>
                             </div>
+
                         </form>
                     </div>
                 </div>

@@ -11,6 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $organizer = $_POST['organizer'];
     $location = $_POST['location'];
 
+    // Get the logged-in admin's ID
+    $admin_id = $_SESSION['admin_id']; // Ensure admin_id is stored in the session upon login
+
     // Handle logo upload
     if (isset($_FILES['tournamentLogo']) && $_FILES['tournamentLogo']['error'] === UPLOAD_ERR_OK) {
         $logo = $_FILES['tournamentLogo']['name'];
@@ -27,9 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Move the uploaded file to the desired directory
         if (move_uploaded_file($_FILES['tournamentLogo']['tmp_name'], $target_file)) {
             // File upload successful, now insert into database
-            $sql = "INSERT INTO tournaments (name, logo, num_teams, start_date, end_date, organizer, location) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO tournaments (name, logo, num_teams, start_date, end_date, organizer, location, admin_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ssissss", $name, $logo, $num_teams, $start_date, $end_date, $organizer, $location);
+            $stmt->bind_param("ssissssi", $name, $logo, $num_teams, $start_date, $end_date, $organizer, $location, $admin_id);
             $stmt->execute();
             header("Location: admin_dashboard.php");
             exit();
@@ -40,4 +43,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Error uploading file: " . $_FILES['tournamentLogo']['error'];
     }
 }
+
 ?>

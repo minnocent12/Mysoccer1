@@ -13,18 +13,37 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
+$admin_id = $_SESSION['admin_id']; // Get the logged-in admin's ID
+
 // Handle deletion
 if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
     $news_id = intval($_GET['id']);
-    $sql = "DELETE FROM news WHERE id = $news_id";
 
-    if ($conn->query($sql) === TRUE) {
-        header("Location: manage_news.php");
-        exit();
+    // Check if the news article belongs to the logged-in admin
+    $sql = "SELECT admin_id FROM news WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $news_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $news = $result->fetch_assoc();
+        if ($news['admin_id'] == $admin_id) {
+            // Proceed with deletion if the news belongs to the admin
+            $delete_sql = "DELETE FROM news WHERE id = ?";
+            $delete_stmt = $conn->prepare($delete_sql);
+            $delete_stmt->bind_param("i", $news_id);
+            $delete_stmt->execute();
+            header("Location: manage_news.php");
+            exit();
+        } else {
+            $message = "You are not authorized to delete this news article.";
+        }
     } else {
-        $message = "Error deleting news: " . $conn->error;
+        $message = "News article not found.";
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,8 +79,12 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']))
                 </thead>
                 <tbody>
                 <?php
-                $sql = "SELECT * FROM news ORDER BY date_posted DESC";
-                $result = $conn->query($sql);
+                // Fetch news belonging to the logged-in admin
+                $sql = "SELECT * FROM news WHERE admin_id = ? ORDER BY date_posted DESC";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("i", $admin_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
 
                 if ($result === FALSE) {
                     echo "<tr><td colspan='7'>Error fetching news: " . $conn->error . "</td></tr>";
