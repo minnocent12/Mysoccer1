@@ -13,8 +13,19 @@ if (!isset($_GET['tournament_id'])) {
 
 $tournament_id = (int)$_GET['tournament_id'];
 
+// Fetch the tournament details
+$sql_tournament = "SELECT * FROM tournaments WHERE id = ?";
+$stmt_tournament = $conn->prepare($sql_tournament);
+$stmt_tournament->bind_param("i", $tournament_id);
+$stmt_tournament->execute();
+$tournament1 = $stmt_tournament->get_result()->fetch_assoc();
+
+if (!$tournament1) {
+    die('Tournament not found.');
+}
+
 // Fetch match results with team names and scores, but only where scores are available
-$sql = "
+$sql_matches = "
     SELECT matches.match_date, matches.team1_score, matches.team2_score, matches.location, 
            t1.name AS team1_name, t1.logo AS team1_logo, 
            t2.name AS team2_name, t2.logo AS team2_logo
@@ -26,27 +37,27 @@ $sql = "
       AND matches.team2_score IS NOT NULL
     ORDER BY matches.match_date ASC
 ";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $tournament_id);
-$stmt->execute();
-$matches = $stmt->get_result();
+$stmt_matches = $conn->prepare($sql_matches);
+$stmt_matches->bind_param("i", $tournament_id);
+$stmt_matches->execute();
+$matches = $stmt_matches->get_result();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Results - <?php echo htmlspecialchars($tournament_id); ?></title>
+    <title><?php echo htmlspecialchars($tournament1['name']); ?> - Results</title>
     <link rel="stylesheet" href="css/styles.css?v=1.0">
-    
 </head>
 <body>
 <?php include 'includes/header.php'; ?>
 
 <main>
     <div class="container">
-        <h2>Tournament Results</h2>
-
+        <section class="welcome">
+            <h2><?php echo htmlspecialchars($tournament1['name']); ?> Results</h2>
+        </section>
         <?php if ($matches->num_rows > 0): ?>
             <?php while ($match = $matches->fetch_assoc()): ?>
                 <h3><?php echo date("l, j F Y", strtotime($match['match_date'])); ?></h3>

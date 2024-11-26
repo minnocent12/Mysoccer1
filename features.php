@@ -18,9 +18,9 @@ $sql = "SELECT * FROM tournaments WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $tournament_id);
 $stmt->execute();
-$tournament = $stmt->get_result()->fetch_assoc();
+$tournament1 = $stmt->get_result()->fetch_assoc();
 
-if (!$tournament) {
+if (!$tournament1) {
     die('Tournament not found.');
 }
 
@@ -55,7 +55,7 @@ while ($row = $matches_result->fetch_assoc()) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><?php echo htmlspecialchars($tournament['name']); ?> - Features</title>
+    <title><?php echo htmlspecialchars($tournament1['name']); ?> - Features</title>
     <link rel="stylesheet" href="css/styles.css?v=1.0">
    
 </head>
@@ -64,7 +64,10 @@ while ($row = $matches_result->fetch_assoc()) {
 
 <main>
     <div class="container">
-        <h2><?php echo htmlspecialchars($tournament['name']); ?> Features</h2>
+        <section class="welcome">
+
+            <h2><?php echo htmlspecialchars($tournament1['name']); ?> Features</h2>
+        </section>
 
         <?php if (empty($matches_by_date)): ?>
             <p>No matches scheduled for this tournament yet.</p>

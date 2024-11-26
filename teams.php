@@ -18,9 +18,9 @@ $tournament_sql = "SELECT * FROM tournaments WHERE id = ?";
 $stmt = $conn->prepare($tournament_sql);
 $stmt->bind_param("i", $tournament_id);
 $stmt->execute();
-$tournament = $stmt->get_result()->fetch_assoc();
+$tournament1 = $stmt->get_result()->fetch_assoc();
 
-if (!$tournament) {
+if (!$tournament1) {
     die('Tournament not found.');
 }
 
@@ -42,14 +42,16 @@ $teams_result = $stmt_teams->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css?v=1.0">
     <link rel="stylesheet" href="css/table.css?v=1.0"> <!-- Use same styles for consistency -->
-    <title><?php echo htmlspecialchars($tournament['name']); ?> - Teams</title>
+    <title><?php echo htmlspecialchars($tournament1['name']); ?> - Teams</title>
 </head>
 <body>
     <?php include 'includes/header.php'; ?>
 
     <main>
         <div class="container">
-            <h2><?php echo htmlspecialchars($tournament['name']); ?> Teams</h2>
+            <section class="welcome">
+                <h2><?php echo htmlspecialchars($tournament1['name']); ?> Teams</h2>
+            </section>
 
             <?php if ($teams_result->num_rows > 0): ?>
                 <table class="standing-table">
