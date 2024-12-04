@@ -15,13 +15,15 @@ if (!isset($_SESSION['username'])) {
 
 $message = '';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+{
     $title = $conn->real_escape_string($_POST['title']);
     $summary = $conn->real_escape_string($_POST['summary']);
     $content = $conn->real_escape_string($_POST['content']);
     $date_posted = $_POST['date_posted'];
     
     // Handle image upload
+    $admin_id = $_SESSION['admin_id'];
     $image = '';
     if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
         $image = basename($_FILES['image']['name']);
@@ -34,8 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Prepare SQL statement to insert news article
-    $sql = "INSERT INTO news (title, summary, content, image, date_posted, created_at) 
-            VALUES ('$title', '$summary', '$content', '$image', '$date_posted', NOW())";
+    $sql = "INSERT INTO news (title, summary, content, image, date_posted, created_at, admin_id) 
+            VALUES ('$title', '$summary', '$content', '$image', '$date_posted', NOW(), '$admin_id')";
 
     if ($conn->query($sql) === TRUE) {
         header("Location: manage_news.php");
