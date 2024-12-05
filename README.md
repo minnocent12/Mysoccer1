@@ -81,6 +81,46 @@ Email Sending Issues:
 
 Verify SMTP settings in the email configuration section.
 
+folder permission error
+
+Ensure that uploads/news, uploads/profile_pics, uploads/teams and uploads/tournaments have full permissions.
+To setup permission run the following command.
+
+Run this command (if you're on Linux and macOS):
+
+chmod 777 uploads/news
+chmod 777 uploads/profile_pics
+chmod 777 uploads/teams
+chmod 777 uploads/tournaments
+
+On Windows, permissions are usually managed through a graphical interface rather than commands like in Linux or macOS.
+
+Steps to Set Permissions on Windows:
+Locate the Directory:
+
+Navigate to the uploads/news, uploads/profile_pics, uploads/teams and uploads/tournaments folder in your project directory using File Explorer.
+Open Folder Properties:
+
+Right-click on the uploads/news, uploads/profile_pics, uploads/teams and uploads/tournaments folder and select Properties.
+Go to the Security tab.
+Edit Permissions:
+
+Click on the Edit button under the Security tab.
+In the new window, click Add to add a new user or group.
+Add the IIS User:
+
+In most cases, the web server on Windows is run by the IIS_IUSRS group or a similar user account used by the web server.
+Type IIS_IUSRS in the box (or the appropriate user account if known) and click Check Names to verify.
+Grant Write Permissions:
+
+Once added, select the IIS_IUSRS group (or appropriate user) from the list.
+Under the Permissions for IIS_IUSRS, check the Write permission checkbox.
+Click OK to save changes.
+Apply Changes:
+
+Click Apply and OK to close all dialog boxes.
+
+
 
 ### License
 
